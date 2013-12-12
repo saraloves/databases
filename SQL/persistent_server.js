@@ -50,6 +50,9 @@ var router = {
   "/bower_components/jquery/jquery.min.js": filesys,
   "/bower_components/underscore/underscore-min.js": filesys,
   "/bower_components/backbone/backbone-min.js": filesys,
+  "/bower_components/jquery/jquery.min.map": filesys,
+  "/bower_components/underscore/underscore-min.map": filesys,
+  "/bower_components/backbone/backbone-min.map": filesys,
   "/scripts/config.js": filesys,
   "/scripts/app.js": filesys
 };

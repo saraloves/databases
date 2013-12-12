@@ -4,7 +4,7 @@
  * You'll have to figure out a way to export this function from
  * this file and include it in basic-server.js so that it actually works.
  * *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html. */
-var messages = [];
+var messages;
 var fs = require('fs');
 var mysql = require('mysql');
 var qs = require('querystring');
@@ -23,7 +23,23 @@ var writeResponse = function (response, obj, statusCode) {
   response.end(JSON.stringify(obj));
 };
 
-var sendMessage = function (request, response) {
+var getFromDatabase = function (request, response) {
+  var dbConnection = mysql.createConnection({
+    user: "root",
+    password: "",
+    database: "chat"
+  });
+  //next line might be redundant
+  dbConnection.connect();
+  var makeSql = 'SELECT * FROM messages WHERE id=2';
+  messages = dbConnection.query(makeSql, function(err, row){
+    if (err) { throw err; }
+    console.log("row[0] is: " + row[0].Message);
+  });
+
+  messages = qs.parse(messages);
+
+  dbConnection.end();
   writeResponse(response, messages);
 };
 
@@ -74,7 +90,7 @@ var collectData = function (request, response, cb) {
 };
 
 var actionRouter = {
-  "GET": sendMessage,
+  "GET": getFromDatabase,
   "POST": saveMessages,
   "OPTIONS": sendBackStatusCode
 };
